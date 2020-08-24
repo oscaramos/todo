@@ -32,6 +32,7 @@ const Header = () => {
           </Grid>
         </Grid>
       </Grid>
+
       <Grid item>
         <Grid container alignItems='center' style={{ height: '100%' }}>
           <Grid item>
