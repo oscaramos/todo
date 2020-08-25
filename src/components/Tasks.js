@@ -4,6 +4,7 @@ import NoTasks from '../assets/NoTasks.png'
 import Grid from '@material-ui/core/Grid'
 import { Typography } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
+import Radio from '@material-ui/core/Radio'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,7 +44,7 @@ function ViewNoTasks() {
   )
 }
 
-function ViewTasks({ tasks }) {
+function ViewTasks({ tasks, toggleCompleted }) {
   const classes = useTasksStyles()
 
   return (
@@ -58,14 +59,17 @@ function ViewTasks({ tasks }) {
             {/*----- Today Tasks -----*/}
             <Grid container direction='column' spacing={2}>
               {
-                tasks.map(task => (
+                tasks.map((task, index) => (
                   <Grid item key={task.description}>
                     <Paper className={classes.paper} variant='outlined'>
                       <Grid container direction='row' alignItems='center' style={{ height: '100%' }}>
-                        <Grid item style={{ width: '2em' }}>
-                          ok?
+                        <Grid item sm={1}>
+                          <Radio
+                            checked={task.completed}
+                            onClick={() => toggleCompleted(index)}
+                          />
                         </Grid>
-                        <Grid item style={{ width: '6em' }}>
+                        <Grid item sm={3}>
                           <Typography variant='subtitle1'>
                             {task.startTime}
                           </Typography>
@@ -88,24 +92,34 @@ function ViewTasks({ tasks }) {
   )
 }
 
-const Tasks = () => {
+function Tasks() {
   const classes = useStyles()
+
   const [tasks, setTasks] = useState([
     {
       startTime: '7:00 AM',
       description: 'Go jogging with Christin',
+      completed: false
     },
     {
       startTime: '8:00 AM',
       description: 'Send project file',
+      completed: true
     },
   ])
+
+  const toggleCompleted = (index) => {
+    const newTasks = [ ...tasks ]
+    newTasks[index].completed = !newTasks[index].completed
+    setTasks(newTasks)
+  }
+
   return (
     <div className={classes.root}>
       {
         tasks.length === 0
           ? <ViewNoTasks />
-          : <ViewTasks tasks={tasks} />
+          : <ViewTasks tasks={tasks} toggleCompleted={toggleCompleted} />
       }
 
     </div>
