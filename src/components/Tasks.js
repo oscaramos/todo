@@ -16,6 +16,8 @@ const useStyles = makeStyles(theme => ({
 const useTasksStyles = makeStyles(theme => ({
   paper: {
     height: '5em',
+    boxShadow: '0px 0px 5px 0px rgba(239,222,234,1)',
+    color: 'white'
   },
   icon: {
     'borderRadius': '50%',
@@ -55,6 +57,10 @@ const useTasksStyles = makeStyles(theme => ({
   taskCompleted: {
     color: '#cdcdcd',
     textDecoration: 'line-through'
+  },
+  subtitle1: {
+    color: '#bcbcbc',
+    fontSize: '0.80rem'
   }
 }))
 
@@ -101,7 +107,7 @@ function ViewTasks({ tasks, toggleCompleted }) {
               {
                 tasks.map((task, index) => (
                   <Grid item key={task.description}>
-                    <Paper className={classes.paper} variant='outlined'>
+                    <Paper className={classes.paper}>
                       <Grid container direction='row' alignItems='center' style={{ height: '100%' }}>
                         <Grid item sm={1}>
                           <Radio
@@ -112,8 +118,8 @@ function ViewTasks({ tasks, toggleCompleted }) {
                             disableRipple
                           />
                         </Grid>
-                        <Grid item sm={3}>
-                          <Typography variant='subtitle1'>
+                        <Grid item sm={2}>
+                          <Typography variant='subtitle1' className={classes.subtitle1} align='center'>
                             {task.startTime}
                           </Typography>
                         </Grid>
