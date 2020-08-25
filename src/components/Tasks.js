@@ -52,6 +52,10 @@ const useTasksStyles = makeStyles(theme => ({
       backgroundColor: '#74BE4F',
     },
   },
+  taskCompleted: {
+    color: '#cdcdcd',
+    textDecoration: 'line-through'
+  }
 }))
 
 
@@ -114,7 +118,11 @@ function ViewTasks({ tasks, toggleCompleted }) {
                           </Typography>
                         </Grid>
                         <Grid item>
-                          <Typography variant='body1' color='primary'>
+                          <Typography
+                            variant='body1'
+                            color='primary'
+                            className={task.completed? classes.taskCompleted: undefined}
+                          >
                             {task.description}
                           </Typography>
                         </Grid>
