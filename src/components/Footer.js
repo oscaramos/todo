@@ -10,22 +10,58 @@ import Grid from '@material-ui/core/Grid'
 import AddIcon from '@material-ui/icons/Add'
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined'
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined'
-import AppBar from '@material-ui/core/AppBar'
 import Container from '@material-ui/core/Container'
-import Box from '@material-ui/core/Box'
+import { makeStyles } from '@material-ui/core/styles'
 
+import addTaskBackgroundSvg from '../assets/curve.svg'
+import TextField from '@material-ui/core/TextField'
+import { Typography } from '@material-ui/core'
+import { DateTimePicker } from '@material-ui/pickers'
+
+
+const useStyles = makeStyles(theme => ({
+  addTaskDialogContainer: {
+    width: '100%',
+    height: '15em',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    padding: 'inherit'
+  },
+  addTaskDialog: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    left: 0,
+    padding: 'inherit'
+  },
+  addTaskBackgroundBody: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: '100%'
+  },
+  addTaskBackgroundHead: {
+    width: '100%',
+    height: '2em',
+    backgroundImage: `url(${addTaskBackgroundSvg})`,
+    transform: 'scale(1, -1)'
+  }
+}))
 
 
 const Footer = ({ addTask }) => {
-  const [value, setValue] = useState(0);
+  const classes = useStyles()
+
+  const [value, setValue] = useState(0)
+  const [selectedDate, handleDateChange] = useState(new Date());
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   return (
     <div style={{ position: 'fixed', top: 'auto', bottom: 0, left: 0, width: '100%' }}>
-      <Container maxWidth='xs'>
+      <Container maxWidth='xs' style={{ position: 'relative' }}>
         <Paper square style={{ position: 'relative', overflow: 'visible' }}>
           <Tabs
             value={value}
@@ -47,6 +83,55 @@ const Footer = ({ addTask }) => {
             </Grid>
           </Grid>
         </Paper>
+        <div className={classes.addTaskDialogContainer}>
+          <div className={classes.addTaskBackgroundHead} />
+          <div className={classes.addTaskDialog}>
+            <Grid container direction='column'>
+              <Grid item>
+                <Typography align='center'>
+                  Add new task
+                </Typography>
+              </Grid>
+              <Grid item>
+                <TextField
+                  variant='standard'
+                  aria-label='description'
+                  rows={2}
+                  fullWidth
+                  multiline
+                />
+              </Grid>
+              <Grid item>
+                <Typography>
+                  Choose date
+                </Typography>
+              </Grid>
+              <Grid item container direction='row' justify='space-between'>
+                <Grid item>
+                  <DateTimePicker
+                    autoOk
+                    ampm={false}
+                    disableFuture
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    label="24h clock"
+                  />
+                </Grid>
+                <Grid item>
+                  <DateTimePicker
+                    autoOk
+                    ampm={false}
+                    disableFuture
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    label="24h clock"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          </div>
+          <div className={classes.addTaskBackgroundBody} />
+        </div>
       </Container>
     </div>
   )

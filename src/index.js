@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 
@@ -9,8 +13,10 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <App />
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <CssBaseline />
+      <App />
+    </MuiPickersUtilsProvider>
   </ThemeProvider>,
   document.querySelector('#root'),
 );
