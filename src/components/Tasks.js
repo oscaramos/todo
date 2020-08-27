@@ -101,48 +101,54 @@ function ViewTasks({ tasks, toggleCompleted }) {
     <Grid container direction='column'>
       {
         Object.entries(tasks).map(([day, dayTasks]) => (
-          <React.Fragment>
+          <React.Fragment key={day}>
+            <Grid item>
+              <div style={{ width: '100%', height: '1em' }} />
+            </Grid>
             <Grid item>
               <Typography className={classes.day}>
                 {day}
               </Typography>
             </Grid>
-
-            {
-              dayTasks.map((task, index) => (
-                <Paper className={classes.paper}>
-                  <Grid container direction='row' alignItems='center' style={{ height: '100%' }}>
-                    <Grid item sm={1}>
-                      <Radio
-                        checked={task.completed}
-                        onClick={() => toggleCompleted(day, index)}
-                        icon={<span className={classes.icon} />}
-                        checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
-                        disableRipple
-                      />
-                    </Grid>
-                    <Grid item sm={2}>
-                      <Typography
-                        variant='subtitle1'
-                        className={classes.subtitle1}
-                        align='center'
-                      >
-                        {task.startTime}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography
-                        variant='body1'
-                        color='primary'
-                        className={task.completed ? classes.taskCompleted : undefined}
-                      >
-                        {task.description}
-                      </Typography>
-                    </Grid>
+            <Grid item container direction='column' spacing={1}>
+              {
+                dayTasks.map((task, index) => (
+                  <Grid item key={index}>
+                    <Paper className={classes.paper}>
+                      <Grid container direction='row' alignItems='center' style={{ height: '100%' }}>
+                        <Grid item sm={1}>
+                          <Radio
+                            checked={task.completed}
+                            onClick={() => toggleCompleted(day, index)}
+                            icon={<span className={classes.icon} />}
+                            checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
+                            disableRipple
+                          />
+                        </Grid>
+                        <Grid item sm={2}>
+                          <Typography
+                            variant='subtitle1'
+                            className={classes.subtitle1}
+                            align='center'
+                          >
+                            {task.startTime}
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography
+                            variant='body1'
+                            color='primary'
+                            className={task.completed ? classes.taskCompleted : undefined}
+                          >
+                            {task.description}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Paper>
                   </Grid>
-                </Paper>
-              ))
-            }
+                ))
+              }
+            </Grid>
           </React.Fragment>
         ))
       }
@@ -158,30 +164,30 @@ function Tasks() {
       {
         startTime: '7:00 AM',
         description: 'Go jogging with Christin',
-        completed: false
+        completed: false,
       },
       {
         startTime: '8:00 AM',
         description: 'Send project file',
-        completed: true
+        completed: true,
       },
     ],
     'Tomorrow': [
       {
         startTime: '7:00 AM',
         description: 'Go jogging with Christin',
-        completed: true
+        completed: true,
       },
       {
         startTime: '8:00 AM',
         description: 'Send project file',
-        completed: false
+        completed: false,
       },
     ],
   })
 
   const toggleCompleted = (day, index) => {
-    const newTasks = {...tasks}
+    const newTasks = { ...tasks }
     newTasks[day][index].completed = !newTasks[day][index].completed
     setTasks(newTasks)
   }
