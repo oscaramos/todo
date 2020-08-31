@@ -17,38 +17,123 @@ import addTaskBackgroundSvg from '../assets/curve.svg'
 import TextField from '@material-ui/core/TextField'
 import { Typography } from '@material-ui/core'
 import { DateTimePicker } from '@material-ui/pickers'
+import Button from '@material-ui/core/Button'
+import * as PropTypes from 'prop-types'
 
 
-const useStyles = makeStyles(theme => ({
-  addTaskDialogContainer: {
+const useStyles = makeStyles(() => ({
+  mainContainer: {
+    position: 'fixed',
+    top: 'auto',
+    bottom: 0,
+    left: 0,
+    width: '100%'
+  }
+}))
+
+const useTaskDialogStyles = makeStyles(() => ({
+  dialogContainer: {
     width: '100%',
-    height: '15em',
     position: 'absolute',
     bottom: 0,
     left: 0,
+    padding: 'inherit',
+    zIndex: 1
+  },
+  dialog: {
+    width: '100%',
     padding: 'inherit'
   },
-  addTaskDialog: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    left: 0,
-    padding: 'inherit'
+  button: {
+    background: 'linear-gradient(90deg, rgba(126,182,255,1) 50%, rgba(95,135,231,1) 100%)'
   },
-  addTaskBackgroundBody: {
-    backgroundColor: 'white',
-    width: '100%',
-    height: '100%'
-  },
-  addTaskBackgroundHead: {
+  backgroundHead: {
     width: '100%',
     height: '2em',
     backgroundImage: `url(${addTaskBackgroundSvg})`,
     transform: 'scale(1, -1)'
+  },
+  backgroundBody: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    bottom: 0,
+    zIndex: -1
   }
 }))
 
 
+function AddTaskDialog({ onChange, value }) {
+  const classes = useTaskDialogStyles()
+  return (
+    <div className={classes.dialogContainer}>
+      <div className={classes.backgroundHead} />
+      <div style={{ position: 'relative ' }}>
+        <div className={classes.dialog}>
+          <Grid container direction='column' spacing={2}>
+            <Grid item>
+              <Typography align='center'>
+                Add new task
+              </Typography>
+            </Grid>
+            <Grid item>
+              <TextField
+                variant='standard'
+                aria-label='description'
+                rows={2}
+                fullWidth
+                multiline
+              />
+            </Grid>
+            <Grid item>
+              <Typography>
+                Choose date
+              </Typography>
+            </Grid>
+            <Grid item container direction='row' justify='space-between'>
+              <Grid item>
+                <DateTimePicker
+                  autoOk
+                  ampm={false}
+                  disableFuture
+                  value={value}
+                  onChange={onChange}
+                  label='24h clock'
+                />
+              </Grid>
+              <Grid item>
+                <DateTimePicker
+                  autoOk
+                  ampm={false}
+                  disableFuture
+                  value={value}
+                  onChange={onChange}
+                  label='24h clock'
+                />
+              </Grid>
+            </Grid>
+            <Grid item container justify='center'>
+              <Grid item container>
+                <Button className={classes.button} variant='contained' fullWidth>
+                  Add task
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </div>
+        <div className={classes.backgroundBody} />
+        <div style={{ width: '100%', height: '2em'}} />
+      </div>
+    </div>
+  )
+}
+
+AddTaskDialog.propTypes = {
+  classes: PropTypes.any,
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+}
 const Footer = ({ addTask }) => {
   const classes = useStyles()
 
@@ -60,7 +145,7 @@ const Footer = ({ addTask }) => {
   }
 
   return (
-    <div style={{ position: 'fixed', top: 'auto', bottom: 0, left: 0, width: '100%' }}>
+    <div className={classes.mainContainer}>
       <Container maxWidth='xs' style={{ position: 'relative' }}>
         <Paper square style={{ position: 'relative', overflow: 'visible' }}>
           <Tabs
@@ -83,55 +168,8 @@ const Footer = ({ addTask }) => {
             </Grid>
           </Grid>
         </Paper>
-        <div className={classes.addTaskDialogContainer}>
-          <div className={classes.addTaskBackgroundHead} />
-          <div className={classes.addTaskDialog}>
-            <Grid container direction='column'>
-              <Grid item>
-                <Typography align='center'>
-                  Add new task
-                </Typography>
-              </Grid>
-              <Grid item>
-                <TextField
-                  variant='standard'
-                  aria-label='description'
-                  rows={2}
-                  fullWidth
-                  multiline
-                />
-              </Grid>
-              <Grid item>
-                <Typography>
-                  Choose date
-                </Typography>
-              </Grid>
-              <Grid item container direction='row' justify='space-between'>
-                <Grid item>
-                  <DateTimePicker
-                    autoOk
-                    ampm={false}
-                    disableFuture
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    label="24h clock"
-                  />
-                </Grid>
-                <Grid item>
-                  <DateTimePicker
-                    autoOk
-                    ampm={false}
-                    disableFuture
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    label="24h clock"
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-          </div>
-          <div className={classes.addTaskBackgroundBody} />
-        </div>
+
+        <AddTaskDialog value={selectedDate} onChange={handleDateChange} />
       </Container>
     </div>
   )
