@@ -9,53 +9,44 @@ import AddTaskDialog from './components/AddTaskDialog'
 import { addHours, startOfToday, addDays } from 'date-fns'
 
 function App() {
-  const [tasks, setTasks] = useState({
-    'Today': [
-      {
-        startTime: addDays(addHours(startOfToday(), 7), 0),
-        description: 'Go jogging with Christin',
-        completed: false,
-      },
-      {
-        startTime: addDays(addHours(startOfToday(), 8), 0),
-        description: 'Send project file',
-        completed: true,
-      },
-    ],
-    'Tomorrow': [
-      {
-        startTime: addDays(addHours(startOfToday(), 7), 1),
-        description: 'Go jogging with Christin',
-        completed: true,
-      },
-      {
-        startTime: addDays(addHours(startOfToday(), 8), 1),
-        description: 'Send project file',
-        completed: false,
-      },
-    ],
-  })
-
-
+  const [tasks, setTasks] = useState([
+    {
+      startTime: addDays(addHours(startOfToday(), 7), 0),
+      description: 'Go jogging with Christin',
+      completed: false,
+    },
+    {
+      startTime: addDays(addHours(startOfToday(), 8), 0),
+      description: 'Send project file',
+      completed: true,
+    },
+    {
+      startTime: addDays(addHours(startOfToday(), 7), 1),
+      description: 'Go jogging with Christin',
+      completed: true,
+    },
+    {
+      startTime: addDays(addHours(startOfToday(), 8), 2),
+      description: 'Send project file',
+      completed: false,
+    },
+  ])
 
   const addTask = (newTask) => {
-    const newTasks = {
+    const newTasks = [
       ...tasks,
-      [newTask.day]: [
-        ...tasks[newTask.day],
-        {
-          startTime: newTask.startTime,
-          description: newTask.description,
-          completed: false,
-        }
-      ]
-    }
+      {
+        startTime: newTask.startTime,
+        description: newTask.description,
+        completed: false,
+      }
+    ]
     setTasks(newTasks)
   }
 
   const toggleCompleted = (day, index) => {
-    const newTasks = { ...tasks }
-    newTasks[day][index].completed = !newTasks[day][index].completed
+    const newTasks = [ ...tasks ]
+    newTasks[index].completed = !newTasks[index].completed
     setTasks(newTasks)
   }
 

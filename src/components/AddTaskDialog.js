@@ -58,7 +58,6 @@ function AddTaskDialog({ onSubmit }) {
 
   function handleClick() {
     onSubmit({
-      day: 'Today',
       startTime,
       description
     })
@@ -97,6 +96,7 @@ function AddTaskDialog({ onSubmit }) {
                       onChange={setStartTime}
                       label='Start at'
                       format='EEEE, HH:mm'
+                      disableFuture
                     />
                   </Grid>
                 </Grid>

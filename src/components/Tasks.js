@@ -1,12 +1,14 @@
 import React from 'react'
+import clsx from 'clsx'
+import { format, startOfDay, differenceInDays } from 'date-fns';
+
 import { makeStyles } from '@material-ui/core/styles'
-import NoTasks from '../assets/NoTasks.png'
 import Grid from '@material-ui/core/Grid'
 import { Typography } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
 import Radio from '@material-ui/core/Radio'
-import clsx from 'clsx'
-import { format } from 'date-fns'
+
+import NoTasks from '../assets/NoTasks.png'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -159,12 +161,36 @@ function ViewTasks({ tasks, toggleCompleted }) {
 
 function Tasks({ tasks, toggleCompleted }) {
   const classes = useStyles()
+
+  const getDay = (startTime) => {
+    const diff = differenceInDays(startTime, startOfDay(new Date()))
+
+    if (diff === 0) {
+      return 'Today'
+    } else if(diff === 1) {
+      return 'Tomorrow'
+    } else {
+      return `${diff} days`
+    }
+  }
+
+  const categorizedTasks =
+    tasks.reduce((acum, task) => {
+      return {
+        ...acum,
+        [getDay(task.startTime)]: [
+          ...(acum[getDay(task.startTime)] || [] ),
+          task
+        ]
+      }
+    }, {})
+
   return (
     <div className={classes.root}>
       {
         tasks.length === 0
           ? <ViewNoTasks />
-          : <ViewTasks tasks={tasks} toggleCompleted={toggleCompleted} />
+          : <ViewTasks tasks={categorizedTasks} toggleCompleted={toggleCompleted} />
       }
     </div>
   )
