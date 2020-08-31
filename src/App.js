@@ -1,20 +1,72 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 
 import Header from './components/Header'
 import Tasks from './components/Tasks'
 import Footer from './components/Footer'
+import AddTaskDialog from './components/AddTaskDialog'
 
-export default function App() {
-  const addTask = () => {
+import { addHours, startOfToday, addDays } from 'date-fns'
 
+function App() {
+  const [tasks, setTasks] = useState({
+    'Today': [
+      {
+        startTime: addDays(addHours(startOfToday(), 7), 0),
+        description: 'Go jogging with Christin',
+        completed: false,
+      },
+      {
+        startTime: addDays(addHours(startOfToday(), 8), 0),
+        description: 'Send project file',
+        completed: true,
+      },
+    ],
+    'Tomorrow': [
+      {
+        startTime: addDays(addHours(startOfToday(), 7), 1),
+        description: 'Go jogging with Christin',
+        completed: true,
+      },
+      {
+        startTime: addDays(addHours(startOfToday(), 8), 1),
+        description: 'Send project file',
+        completed: false,
+      },
+    ],
+  })
+
+
+
+  const addTask = (newTask) => {
+    const newTasks = {
+      ...tasks,
+      [newTask.day]: [
+        ...tasks[newTask.day],
+        {
+          startTime: newTask.startTime,
+          description: newTask.description,
+          completed: false,
+        }
+      ]
+    }
+    setTasks(newTasks)
+  }
+
+  const toggleCompleted = (day, index) => {
+    const newTasks = { ...tasks }
+    newTasks[day][index].completed = !newTasks[day][index].completed
+    setTasks(newTasks)
   }
 
   return (
     <Container maxWidth='xs'>
       <Header />
-      <Tasks />
-      <Footer addTask={addTask} />
+      <Tasks tasks={tasks} toggleCompleted={toggleCompleted}/>
+      <Footer />
+      <AddTaskDialog onSubmit={addTask} />
     </Container>
   )
 }
+
+export default App

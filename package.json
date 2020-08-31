@@ -14,7 +14,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.2.10",
     "clsx": "latest",
-    "date-fns": "^2.15.0",
+    "date-fns": "^2.16.1",
     "react": "latest",
     "react-dom": "latest",
     "react-scripts": "latest"
