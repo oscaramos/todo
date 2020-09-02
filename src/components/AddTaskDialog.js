@@ -8,6 +8,9 @@ import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { DateTimePicker } from '@material-ui/pickers'
 
+import IconButton from '@material-ui/core/IconButton'
+import CancelIcon from '@material-ui/icons/Cancel';
+
 import addTaskBackgroundSvg from '../assets/curve.svg'
 
 const useTaskDialogStyles = makeStyles(() => ({
@@ -37,7 +40,7 @@ const useTaskDialogStyles = makeStyles(() => ({
   },
   backgroundHead: {
     width: '100%',
-    height: '2em',
+    height: '4em',
     backgroundImage: `url(${addTaskBackgroundSvg})`,
     transform: 'scale(1, -1)',
   },
@@ -49,6 +52,24 @@ const useTaskDialogStyles = makeStyles(() => ({
     bottom: 0,
     zIndex: -1,
   },
+  iconCloseContainer:{
+    position: 'absolute',
+    zIndex: 1,
+    width: '100%',
+    display: 'flex',
+    left: 0,
+    top: -30,
+    justifyContent: 'center'
+  },
+  iconCloseButton: {
+    '&:hover': {
+      backgroundColor: 'transparent'
+    }
+  },
+  iconClose: {
+    color: '#ED38B1',
+    fontSize: '3rem'
+  }
 }))
 
 function AddTaskDialog({ onSubmit }) {
@@ -67,6 +88,11 @@ function AddTaskDialog({ onSubmit }) {
     <div className={classes.mainContainer}>
       <Container maxWidth='xs' style={{ position: 'relative' }}>
         <div className={classes.dialogContainer}>
+          <div className={classes.iconCloseContainer}>
+            <IconButton disableRipple className={classes.iconCloseButton}>
+              <CancelIcon className={classes.iconClose}/>
+            </IconButton>
+          </div>
           <div className={classes.backgroundHead} />
           <div style={{ position: 'relative ' }}>
             <div className={classes.dialog}>
