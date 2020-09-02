@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const Footer = () => {
+function Footer({ onOpenAddTaskDialog }) {
   const classes = useStyles()
 
   const [value, setValue] = useState(0)
@@ -51,7 +51,7 @@ const Footer = () => {
 
           <Grid container style={{ position: 'absolute', top: -25 }} justify='center'>
             <Grid item>
-              <Fab color='primary' aria-label='add task'>
+              <Fab color='primary' aria-label='add task' onClick={onOpenAddTaskDialog}>
                 <AddIcon fontSize='large' />
               </Fab>
             </Grid>

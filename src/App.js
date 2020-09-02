@@ -32,6 +32,8 @@ function App() {
     },
   ])
 
+  const [openAddTask, setOpenAddTask] = useState(false)
+
   const addTask = (newTask) => {
     const newTasks = [
       ...tasks,
@@ -54,8 +56,14 @@ function App() {
     <Container maxWidth='xs'>
       <Header />
       <Tasks tasks={tasks} toggleCompleted={toggleCompleted}/>
-      <Footer />
-      <AddTaskDialog onSubmit={addTask} />
+      <Footer
+        onOpenAddTaskDialog={() => setOpenAddTask(true)}
+      />
+      <AddTaskDialog
+        open={openAddTask}
+        onSubmit={addTask}
+        onClose={() => setOpenAddTask(false)}
+      />
     </Container>
   )
 }

@@ -72,7 +72,7 @@ const useTaskDialogStyles = makeStyles(() => ({
   }
 }))
 
-function AddTaskDialog({ onSubmit }) {
+function AddTaskDialog({ open, onSubmit, onClose }) {
   const classes = useTaskDialogStyles()
   const [startTime, setStartTime] = useState(new Date())
   const [description, setDescription] = useState('')
@@ -84,12 +84,16 @@ function AddTaskDialog({ onSubmit }) {
     })
   }
 
+  if (!open) {
+    return <></>
+  }
+
   return (
     <div className={classes.mainContainer}>
       <Container maxWidth='xs' style={{ position: 'relative' }}>
         <div className={classes.dialogContainer}>
           <div className={classes.iconCloseContainer}>
-            <IconButton disableRipple className={classes.iconCloseButton}>
+            <IconButton disableRipple className={classes.iconCloseButton} onClick={onClose}>
               <CancelIcon className={classes.iconClose}/>
             </IconButton>
           </div>
