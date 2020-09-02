@@ -4,16 +4,18 @@ import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import Slide from '@material-ui/core/Slide'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { DateTimePicker } from '@material-ui/pickers'
 
 import IconButton from '@material-ui/core/IconButton'
-import CancelIcon from '@material-ui/icons/Cancel';
+import CancelIcon from '@material-ui/icons/Cancel'
 
 import addTaskBackgroundSvg from '../assets/curve.svg'
 
-const useTaskDialogStyles = makeStyles(() => ({
+const useTaskDialogStyles = makeStyles(theme => ({
   mainContainer: {
     position: 'fixed',
     top: 'auto',
@@ -29,9 +31,14 @@ const useTaskDialogStyles = makeStyles(() => ({
     padding: 'inherit',
     zIndex: 1,
   },
+  title: {
+    ...theme.typography.h1,
+    fontSize: '1rem',
+  },
   dialog: {
     width: '100%',
-    padding: 'inherit',
+    paddingLeft: '2em',
+    paddingRight: '2em',
   },
   button: {
     background: 'linear-gradient(90deg, rgba(126,182,255,1) 50%, rgba(95,135,231,1) 100%)',
@@ -52,25 +59,30 @@ const useTaskDialogStyles = makeStyles(() => ({
     bottom: 0,
     zIndex: -1,
   },
-  iconCloseContainer:{
+  iconCloseContainer: {
     position: 'absolute',
     zIndex: 1,
     width: '100%',
     display: 'flex',
     left: 0,
-    top: -30,
-    justifyContent: 'center'
+    top: -40,
+    justifyContent: 'center',
   },
   iconCloseButton: {
     '&:hover': {
-      backgroundColor: 'transparent'
-    }
+      backgroundColor: 'transparent',
+    },
   },
   iconClose: {
     color: '#ED38B1',
-    fontSize: '3rem'
-  }
+    fontSize: '4rem',
+    background: 'radial-gradient(ellipse at center, rgba(255,255,255,1) 40%,rgba(255,255,255,0) 50%)',
+  },
 }))
+
+const Transition = React.forwardRef((props, ref) =>
+  <Slide direction='up' ref={ref} {...props} />,
+)
 
 function AddTaskDialog({ open, onSubmit, onClose }) {
   const classes = useTaskDialogStyles()
@@ -80,71 +92,84 @@ function AddTaskDialog({ open, onSubmit, onClose }) {
   function handleClick() {
     onSubmit({
       startTime,
-      description
+      description,
     })
+    onClose()
   }
 
-  if (!open) {
-    return <></>
+  const handleClose = () => {
+    onClose()
   }
 
   return (
-    <div className={classes.mainContainer}>
-      <Container maxWidth='xs' style={{ position: 'relative' }}>
-        <div className={classes.dialogContainer}>
-          <div className={classes.iconCloseContainer}>
-            <IconButton disableRipple className={classes.iconCloseButton} onClick={onClose}>
-              <CancelIcon className={classes.iconClose}/>
-            </IconButton>
-          </div>
-          <div className={classes.backgroundHead} />
-          <div style={{ position: 'relative ' }}>
-            <div className={classes.dialog}>
-              <Grid container direction='column' spacing={2}>
-                <Grid item>
-                  <Typography align='center'>
-                    Add new task
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <TextField
-                    variant='standard'
-                    label='description'
-                    aria-label='description'
-                    fullWidth
-                    multiline
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                  />
-                </Grid>
-                <Grid item container direction='row' justify='space-between'>
+    <Dialog
+      onClose={handleClose}
+      aria-labelledby='simple-dialog-title'
+      TransitionComponent={Transition}
+      open={open}
+    >
+      <div className={classes.mainContainer}>
+        <Container maxWidth='xs' style={{ position: 'relative' }}>
+          <div className={classes.dialogContainer}>
+            <div className={classes.iconCloseContainer}>
+              <IconButton disableRipple className={classes.iconCloseButton} onClick={onClose}>
+                <CancelIcon className={classes.iconClose} />
+              </IconButton>
+            </div>
+
+            <div className={classes.backgroundHead} />
+
+            <div style={{ position: 'relative' }}>
+              <div className={classes.dialog}>
+                <Grid container direction='column' spacing={2}>
                   <Grid item>
-                    <DateTimePicker
-                      autoOk
-                      ampm={false}
-                      value={startTime}
-                      onChange={setStartTime}
-                      label='Start at'
-                      format='EEEE, HH:mm'
-                      disableFuture
+                    <Typography align='center' className={classes.title}>
+                      Add new task
+                    </Typography>
+                  </Grid>
+
+                  <Grid item>
+                    <TextField
+                      variant='standard'
+                      label='description'
+                      aria-label='description'
+                      fullWidth
+                      multiline
+                      value={description}
+                      onChange={e => setDescription(e.target.value)}
                     />
                   </Grid>
-                </Grid>
-                <Grid item container justify='center'>
-                  <Grid item style={{ width: '80%' }}>
-                    <Button className={classes.button} variant='contained' fullWidth onClick={handleClick}>
-                      Add task
-                    </Button>
+
+                  <Grid item container direction='row' justify='space-between' style={{ marginBottom: '1em' }}>
+                    <Grid item>
+                      <DateTimePicker
+                        autoOk
+                        ampm={false}
+                        value={startTime}
+                        onChange={setStartTime}
+                        label='Start at'
+                        format='EEEE, HH:mm'
+                        disableFuture
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid item container justify='center'>
+                    <Grid item style={{ width: '80%' }}>
+                      <Button className={classes.button} variant='contained' fullWidth onClick={handleClick}>
+                        Add task
+                      </Button>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
+              </div>
+              <div className={classes.backgroundBody} />
+              <div style={{ width: '100%', height: '2em' }} />
             </div>
-            <div className={classes.backgroundBody} />
-            <div style={{ width: '100%', height: '2em' }} />
           </div>
-        </div>
-      </Container>
-    </div>
+        </Container>
+      </div>
+    </Dialog>
   )
 }
 
