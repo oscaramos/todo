@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-const useTasksStyles = makeStyles(() => ({
+const useTasksStyles = makeStyles(theme => ({
   paper: {
     height: '4em',
     boxShadow: '0px 0px 5px 0px rgba(239,222,234,1)',
@@ -66,6 +66,7 @@ const useTasksStyles = makeStyles(() => ({
     fontSize: '0.8rem',
   },
   day: {
+    ...theme.typography.h1,
     color: '#A7A4C6',
     fontSize: '0.9rem',
   },

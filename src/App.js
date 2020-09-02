@@ -41,13 +41,13 @@ function App() {
         startTime: newTask.startTime,
         description: newTask.description,
         completed: false,
-      }
+      },
     ]
     setTasks(newTasks)
   }
 
   const toggleCompleted = (day, index) => {
-    const newTasks = [ ...tasks ]
+    const newTasks = [...tasks]
     newTasks[index].completed = !newTasks[index].completed
     setTasks(newTasks)
   }
@@ -55,7 +55,10 @@ function App() {
   return (
     <Container maxWidth='xs'>
       <Header />
-      <Tasks tasks={tasks} toggleCompleted={toggleCompleted}/>
+      <Tasks
+        tasks={tasks}
+        toggleCompleted={toggleCompleted}
+      />
       <Footer
         onOpenAddTaskDialog={() => setOpenAddTask(true)}
       />

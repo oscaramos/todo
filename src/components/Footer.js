@@ -14,13 +14,17 @@ import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
 
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   mainContainer: {
     position: 'fixed',
     top: 'auto',
     bottom: 0,
     left: 0,
     width: '100%'
+  },
+  tab: {
+    ...theme.typography.body1,
+    fontSize: '0.9rem'
   }
 }))
 
@@ -41,12 +45,12 @@ function Footer({ onOpenAddTaskDialog }) {
             value={value}
             onChange={handleChange}
             variant='fullWidth'
-            indicatorColor='secondary'
-            textColor='secondary'
+            indicatorColor='primary'
+            textColor='primary'
             aria-label='footer label tabs'
           >
-            <Tab icon={<HomeOutlinedIcon />} label='Home' />
-            <Tab icon={<AssignmentOutlinedIcon />} label='Task' />
+            <Tab icon={<HomeOutlinedIcon />} label='Home' className={classes.tab} />
+            <Tab icon={<AssignmentOutlinedIcon />} label='Task' className={classes.tab} />
           </Tabs>
 
           <Grid container style={{ position: 'absolute', top: -25 }} justify='center'>
