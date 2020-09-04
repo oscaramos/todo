@@ -2,11 +2,14 @@ import React from 'react'
 import clsx from 'clsx'
 import { format, startOfDay, differenceInDays } from 'date-fns';
 
-import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import { Typography } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
 import Radio from '@material-ui/core/Radio'
+import IconButton from '@material-ui/core/IconButton'
+import { makeStyles } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
+
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 
 import NoTasks from '../assets/NoTasks.png'
 
@@ -70,6 +73,14 @@ const useTasksStyles = makeStyles(theme => ({
     color: '#A7A4C6',
     fontSize: '0.9rem',
   },
+  deleteIconContainer: {
+    transition: 'transform .20s, color .20s',
+    '&:hover': {
+      backgroundColor: 'transparent',
+      transform: 'scale(1.2, 1.2)',
+      color: 'red'
+    }
+  }
 }))
 
 
@@ -98,7 +109,7 @@ function ViewNoTasks() {
   )
 }
 
-function ViewTasks({ tasks, toggleCompleted, onEditTask }) {
+function ViewTasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
   const classes = useTasksStyles()
 
   return (
@@ -129,6 +140,7 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask }) {
                             disableRipple
                           />
                         </Grid>
+
                         <Grid item sm={2}>
                           <Typography
                             variant='subtitle1'
@@ -138,7 +150,8 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask }) {
                             {format(task.startTime, 'H:mma')}
                           </Typography>
                         </Grid>
-                        <Grid item>
+
+                        <Grid item sm={7}>
                           <Typography
                             variant='body1'
                             color='primary'
@@ -148,6 +161,14 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask }) {
                           >
                             {task.description}
                           </Typography>
+                        </Grid>
+
+                        <Grid item sm={2} container justify='flex-end'>
+                          <Grid item>
+                            <IconButton disableRipple className={classes.deleteIconContainer} onClick={() => onDeleteTask(task.index)}>
+                              <DeleteOutlineOutlinedIcon fontSize='small' />
+                            </IconButton>
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Paper>
@@ -162,7 +183,7 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask }) {
   )
 }
 
-function Tasks({ tasks, toggleCompleted, onEditTask }) {
+function Tasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
   const classes = useStyles()
 
   const getDay = (startTime) => {
@@ -200,6 +221,7 @@ function Tasks({ tasks, toggleCompleted, onEditTask }) {
               tasks={categorizedTasks}
               toggleCompleted={toggleCompleted}
               onEditTask={onEditTask}
+              onDeleteTask={onDeleteTask}
           />
       }
     </div>

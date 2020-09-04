@@ -56,6 +56,12 @@ function App() {
     setEditTaskIndex(index)
   }
 
+  const handleDeleteTask = (index) => {
+    const newTasks = [...tasks]
+    newTasks.splice(index, 1)
+    setTasks(newTasks)
+  }
+
   const toggleCompleted = (index) => {
     const newTasks = [...tasks]
     newTasks[index].completed = !newTasks[index].completed
@@ -69,6 +75,7 @@ function App() {
         tasks={tasks}
         toggleCompleted={toggleCompleted}
         onEditTask={handleEditTask}
+        onDeleteTask={handleDeleteTask}
       />
       <Footer
         onOpenAddTaskDialog={() => setOpenAddTask(true)}
