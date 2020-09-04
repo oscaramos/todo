@@ -5,6 +5,7 @@ import Header from './components/Header'
 import Tasks from './components/Tasks'
 import Footer from './components/Footer'
 import AddTaskDialog from './components/AddTaskDialog'
+import EditTaskDialog from './components/EditTaskDialog'
 
 import { addHours, startOfToday, addDays } from 'date-fns'
 
@@ -33,17 +34,26 @@ function App() {
   ])
 
   const [openAddTask, setOpenAddTask] = useState(false)
+  const [openEditTask, setOpenEditTask] = useState(false)
+  const [editTaskIndex, setEditTaskIndex] = useState(0)
 
   const addTask = (newTask) => {
     const newTasks = [
       ...tasks,
-      {
-        startTime: newTask.startTime,
-        description: newTask.description,
-        completed: false,
-      },
+      newTask
     ]
     setTasks(newTasks)
+  }
+
+  const editTask = (taskIndex, newTask) => {
+    const newTasks = [...tasks]
+    newTasks[taskIndex] = newTask
+    setTasks(newTasks)
+  }
+
+  const handleEditTask = (index) => {
+    setOpenEditTask(true)
+    setEditTaskIndex(index)
   }
 
   const toggleCompleted = (index) => {
@@ -58,14 +68,23 @@ function App() {
       <Tasks
         tasks={tasks}
         toggleCompleted={toggleCompleted}
+        onEditTask={handleEditTask}
       />
       <Footer
         onOpenAddTaskDialog={() => setOpenAddTask(true)}
       />
+
       <AddTaskDialog
         open={openAddTask}
         onSubmit={addTask}
         onClose={() => setOpenAddTask(false)}
+      />
+      <EditTaskDialog
+        task={tasks[editTaskIndex]}
+        taskIndex={editTaskIndex}
+        open={openEditTask}
+        onSubmit={editTask}
+        onClose={() => setOpenEditTask(false)}
       />
     </Container>
   )

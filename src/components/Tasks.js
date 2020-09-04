@@ -98,7 +98,7 @@ function ViewNoTasks() {
   )
 }
 
-function ViewTasks({ tasks, toggleCompleted }) {
+function ViewTasks({ tasks, toggleCompleted, onEditTask }) {
   const classes = useTasksStyles()
 
   return (
@@ -143,6 +143,8 @@ function ViewTasks({ tasks, toggleCompleted }) {
                             variant='body1'
                             color='primary'
                             className={task.completed ? classes.taskCompleted : undefined}
+                            onClick={() => onEditTask(task.index)}
+                            style={{ cursor: 'pointer' }}
                           >
                             {task.description}
                           </Typography>
@@ -160,7 +162,7 @@ function ViewTasks({ tasks, toggleCompleted }) {
   )
 }
 
-function Tasks({ tasks, toggleCompleted }) {
+function Tasks({ tasks, toggleCompleted, onEditTask }) {
   const classes = useStyles()
 
   const getDay = (startTime) => {
@@ -194,7 +196,11 @@ function Tasks({ tasks, toggleCompleted }) {
       {
         tasks.length === 0
           ? <ViewNoTasks />
-          : <ViewTasks tasks={categorizedTasks} toggleCompleted={toggleCompleted} />
+          : <ViewTasks
+              tasks={categorizedTasks}
+              toggleCompleted={toggleCompleted}
+              onEditTask={onEditTask}
+          />
       }
     </div>
   )
