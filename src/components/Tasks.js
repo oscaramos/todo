@@ -123,7 +123,7 @@ function ViewTasks({ tasks, toggleCompleted }) {
                         <Grid item sm={1}>
                           <Radio
                             checked={task.completed}
-                            onClick={() => toggleCompleted(day, index)}
+                            onClick={() => toggleCompleted(task.index)}
                             icon={<span className={classes.icon} />}
                             checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
                             disableRipple
@@ -176,12 +176,15 @@ function Tasks({ tasks, toggleCompleted }) {
   }
 
   const categorizedTasks =
-    tasks.reduce((acum, task) => {
+    tasks.reduce((acum, task, index) => {
       return {
         ...acum,
         [getDay(task.startTime)]: [
           ...(acum[getDay(task.startTime)] || [] ),
-          task
+          {
+            ...task,
+            index
+          }
         ]
       }
     }, {})

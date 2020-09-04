@@ -46,7 +46,7 @@ function App() {
     setTasks(newTasks)
   }
 
-  const toggleCompleted = (day, index) => {
+  const toggleCompleted = (index) => {
     const newTasks = [...tasks]
     newTasks[index].completed = !newTasks[index].completed
     setTasks(newTasks)
