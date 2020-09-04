@@ -11,6 +11,8 @@ import AddIcon from '@material-ui/icons/Add'
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined'
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined'
 import Container from '@material-ui/core/Container'
+import useTheme from '@material-ui/core/styles/useTheme'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles } from '@material-ui/core/styles'
 
 
@@ -37,9 +39,12 @@ function Footer({ onOpenAddTaskDialog }) {
     setValue(newValue)
   }
 
+  const theme = useTheme()
+  const matchesXS = useMediaQuery(theme.breakpoints.down('xs'))
+
   return (
     <div className={classes.mainContainer}>
-      <Container maxWidth='xs' style={{ position: 'relative' }}>
+      <Container maxWidth='xs' style={{ position: 'relative', padding: matchesXS? 0: undefined }}>
         <Paper square style={{ position: 'relative', overflow: 'visible' }}>
           <Tabs
             value={value}
