@@ -131,7 +131,7 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
                   <Grid item key={index}>
                     <Paper className={classes.paper}>
                       <Grid container direction='row' alignItems='center' style={{ height: '100%' }}>
-                        <Grid item sm={1}>
+                        <Grid item xs={1}>
                           <Radio
                             checked={task.completed}
                             onClick={() => toggleCompleted(task.index)}
@@ -141,7 +141,7 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
                           />
                         </Grid>
 
-                        <Grid item sm={2}>
+                        <Grid item xs={2}>
                           <Typography
                             variant='subtitle1'
                             className={classes.subtitle1}
@@ -151,7 +151,7 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
                           </Typography>
                         </Grid>
 
-                        <Grid item sm={7}>
+                        <Grid item xs={7}>
                           <Typography
                             variant='body1'
                             color='primary'
@@ -163,7 +163,7 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
                           </Typography>
                         </Grid>
 
-                        <Grid item sm={2} container justify='flex-end'>
+                        <Grid item xs={2} container justify='flex-end'>
                           <Grid item>
                             <IconButton disableRipple className={classes.deleteIconContainer} onClick={() => onDeleteTask(task.index)}>
                               <DeleteOutlineOutlinedIcon fontSize='small' />
