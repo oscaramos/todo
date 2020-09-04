@@ -15,6 +15,7 @@
     "@material-ui/pickers": "^3.2.10",
     "clsx": "latest",
     "date-fns": "^2.16.1",
+    "local-storage": "^2.0.0",
     "react": "latest",
     "react-dom": "latest",
     "react-scripts": "latest"

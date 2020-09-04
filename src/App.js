@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import ls from 'local-storage'
+
 import Container from '@material-ui/core/Container'
 
 import Header from './components/Header'
@@ -69,6 +71,28 @@ function App() {
     newTasks[index].completed = !newTasks[index].completed
     setTasks(newTasks)
   }
+
+  useEffect(() => {
+    const lsTasks = ls.get('tasks')
+
+    if (lsTasks) {
+      const obtainedTasks = lsTasks.map(task => ({
+        ...task,
+        startTime: new Date(task.startTime)
+      }))
+
+      setTasks(obtainedTasks)
+    }
+  }, [])
+
+  useEffect(() => {
+    const lsTasks = tasks.map(task => ({
+      ...task,
+      startTime: task.startTime.getTime()
+    }))
+
+    ls.set('tasks', lsTasks)
+  }, [tasks])
 
   return (
     <Container maxWidth='xs'>
