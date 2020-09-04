@@ -149,7 +149,7 @@ function AddTaskDialog({ open, onSubmit, onClose }) {
                         onChange={setStartTime}
                         label='Start at'
                         format='EEEE, HH:mm'
-                        disableFuture
+                        disablePast
                       />
                     </Grid>
                   </Grid>
