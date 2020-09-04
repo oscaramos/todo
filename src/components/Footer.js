@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function Footer({ onOpenAddTaskDialog }) {
+function Footer({ onOpenAddTaskDialog, setRoute }) {
   const classes = useStyles()
 
   const [value, setValue] = useState(0)
@@ -38,6 +38,14 @@ function Footer({ onOpenAddTaskDialog }) {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  useEffect(() => {
+    if (value === 0) {
+      setRoute('home')
+    } else {
+      setRoute('task')
+    }
+  }, [value])
 
   const theme = useTheme()
   const matchesXS = useMediaQuery(theme.breakpoints.down('xs'))

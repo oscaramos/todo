@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { format, startOfDay, differenceInDays } from 'date-fns';
+import { differenceInDays, format, startOfDay } from 'date-fns'
 
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
@@ -9,17 +9,22 @@ import IconButton from '@material-ui/core/IconButton'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 
-import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 
 import NoTasks from '../assets/NoTasks.png'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '50em',
   },
+  day: {
+    ...theme.typography.h1,
+    color: '#A7A4C6',
+    fontSize: '0.9rem',
+  },
 }))
 
-const useTasksStyles = makeStyles(theme => ({
+const useTaskStyles = makeStyles(() => ({
   paper: {
     height: '4em',
     boxShadow: '0px 0px 5px 0px rgba(239,222,234,1)',
@@ -68,21 +73,67 @@ const useTasksStyles = makeStyles(theme => ({
     color: '#bcbcbc',
     fontSize: '0.8rem',
   },
-  day: {
-    ...theme.typography.h1,
-    color: '#A7A4C6',
-    fontSize: '0.9rem',
-  },
+
   deleteIconContainer: {
     transition: 'transform .20s, color .20s',
     '&:hover': {
       backgroundColor: 'transparent',
       transform: 'scale(1.2, 1.2)',
-      color: 'red'
-    }
-  }
+      color: 'red',
+    },
+  },
 }))
 
+
+function Task({ toggleCompleted, onEdit, onDelete, task }) {
+  const classes = useTaskStyles()
+
+  return (
+    <Paper className={classes.paper}>
+      <Grid container direction='row' alignItems='center' style={{ height: '100%' }}>
+        <Grid item xs={1}>
+          <Radio
+            checked={task.completed}
+            onClick={toggleCompleted}
+            icon={<span className={classes.icon} />}
+            checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
+            disableRipple
+          />
+        </Grid>
+
+        <Grid item xs={2}>
+          <Typography
+            variant='subtitle1'
+            className={classes.subtitle1}
+            align='center'
+          >
+            {format(task.startTime, 'H:mma')}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={7}>
+          <Typography
+            variant='body1'
+            color='primary'
+            className={task.completed ? classes.taskCompleted : undefined}
+            onClick={onEdit}
+            style={{ cursor: 'pointer' }}
+          >
+            {task.description}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={2} container justify='flex-end'>
+          <Grid item>
+            <IconButton disableRipple className={classes.deleteIconContainer} onClick={onDelete}>
+              <DeleteOutlineOutlinedIcon fontSize='small' />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
+  )
+}
 
 function ViewNoTasks() {
   return (
@@ -109,14 +160,14 @@ function ViewNoTasks() {
   )
 }
 
-function ViewTasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
-  const classes = useTasksStyles()
+function ViewDailyTasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
+  const classes = useStyles()
 
   return (
     <Grid container direction='column'>
       {
-        Object.entries(tasks).map(([day, dayTasks]) => (
-          <React.Fragment key={day}>
+        Object.entries(tasks).map(([day, dayTasks], index) => (
+          <Grid item container direction='column' key={index}>
             <Grid item>
               <div style={{ width: '100%', height: '1em' }} />
             </Grid>
@@ -127,63 +178,90 @@ function ViewTasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
             </Grid>
             <Grid item container direction='column' spacing={1}>
               {
-                dayTasks.map((task, index) => (
-                  <Grid item key={index}>
-                    <Paper className={classes.paper}>
-                      <Grid container direction='row' alignItems='center' style={{ height: '100%' }}>
-                        <Grid item xs={1}>
-                          <Radio
-                            checked={task.completed}
-                            onClick={() => toggleCompleted(task.index)}
-                            icon={<span className={classes.icon} />}
-                            checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
-                            disableRipple
-                          />
-                        </Grid>
-
-                        <Grid item xs={2}>
-                          <Typography
-                            variant='subtitle1'
-                            className={classes.subtitle1}
-                            align='center'
-                          >
-                            {format(task.startTime, 'H:mma')}
-                          </Typography>
-                        </Grid>
-
-                        <Grid item xs={7}>
-                          <Typography
-                            variant='body1'
-                            color='primary'
-                            className={task.completed ? classes.taskCompleted : undefined}
-                            onClick={() => onEditTask(task.index)}
-                            style={{ cursor: 'pointer' }}
-                          >
-                            {task.description}
-                          </Typography>
-                        </Grid>
-
-                        <Grid item xs={2} container justify='flex-end'>
-                          <Grid item>
-                            <IconButton disableRipple className={classes.deleteIconContainer} onClick={() => onDeleteTask(task.index)}>
-                              <DeleteOutlineOutlinedIcon fontSize='small' />
-                            </IconButton>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Paper>
+                dayTasks.map(task => (
+                  <Grid item key={task.index}>
+                    <Task
+                      classes={classes}
+                      task={task}
+                      toggleCompleted={() => toggleCompleted(task.index)}
+                      onEdit={() => onEditTask(task.index)}
+                      onDelete={() => onDeleteTask(task.index)}
+                    />
                   </Grid>
                 ))
               }
             </Grid>
-          </React.Fragment>
+          </Grid>
         ))
       }
     </Grid>
   )
 }
 
-function Tasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
+function ViewTasks({ activeTasks, completedTasks, toggleCompleted, onEditTask, onDeleteTask }) {
+  const classes = useStyles()
+
+  return (
+    <Grid container direction='column'>
+      {/*----- Active Tasks -----*/}
+      <Grid item container direction='column'>
+        <Grid item>
+          <div style={{ width: '100%', height: '1em' }} />
+        </Grid>
+        <Grid item>
+          <Typography className={classes.day}>
+            Active Tasks
+          </Typography>
+        </Grid>
+        <Grid item container direction='column' spacing={1}>
+          {
+            activeTasks.map(task => {
+              return (
+                <Grid item key={task.index}>
+                  <Task
+                    task={task}
+                    toggleCompleted={() => toggleCompleted(task.index)}
+                    onEdit={() => onEditTask(task.index)}
+                    onDelete={() => onDeleteTask(task.index)}
+                  />
+                </Grid>
+              )
+            })
+          }
+        </Grid>
+      </Grid>
+
+      {/*----- Completed Tasks -----*/}
+      <Grid item container direction='column'>
+        <Grid item>
+          <div style={{ width: '100%', height: '1em' }} />
+        </Grid>
+        <Grid item>
+          <Typography className={classes.day}>
+            Completed Tasks
+          </Typography>
+        </Grid>
+        <Grid item container direction='column' spacing={1}>
+          {
+            completedTasks.map(task => (
+              <Grid item key={task.index}>
+                <Task
+                  task={task}
+                  toggleCompleted={() => toggleCompleted(task.index)}
+                  onEdit={() => onEditTask(task.index)}
+                  onDelete={() => onDeleteTask(task.index)}
+                />
+              </Grid>
+            ))
+          }
+        </Grid>
+      </Grid>
+
+    </Grid>
+  )
+}
+
+function Tasks({ tasks, toggleCompleted, onEditTask, onDeleteTask, route }) {
   const classes = useStyles()
 
   const getDay = (startTime) => {
@@ -191,41 +269,75 @@ function Tasks({ tasks, toggleCompleted, onEditTask, onDeleteTask }) {
 
     if (diff === 0) {
       return 'Today'
-    } else if(diff === 1) {
+    } else if (diff === 1) {
       return 'Tomorrow'
     } else {
       return `${diff} days`
     }
   }
 
-  const categorizedTasks =
-    tasks.reduce((acum, task, index) => {
-      return {
-        ...acum,
-        [getDay(task.startTime)]: [
-          ...(acum[getDay(task.startTime)] || [] ),
-          {
-            ...task,
-            index
-          }
-        ]
-      }
-    }, {})
+  const addIndex = (task, index) => ({...task, index})
 
-  return (
-    <div className={classes.root}>
-      {
-        tasks.length === 0
-          ? <ViewNoTasks />
-          : <ViewTasks
-              tasks={categorizedTasks}
-              toggleCompleted={toggleCompleted}
-              onEditTask={onEditTask}
-              onDeleteTask={onDeleteTask}
-          />
-      }
-    </div>
-  )
+  const categorizedTasks =
+    tasks.reduce((acum, task, index) => ({
+      ...acum,
+      [getDay(task.startTime)]: [
+        ...(acum[getDay(task.startTime)] || []),
+        addIndex(task, index),
+      ],
+    }), {})
+
+  const activeTasks =
+    tasks
+      .map((task, index) => addIndex(task, index))
+      .filter(task => !task.completed)
+
+  const completedTasks =
+    tasks
+      .map((task, index) => addIndex(task, index))
+      .filter(task => task.completed)
+
+
+  if (tasks.length === 0) {
+    return (
+      <div className={classes.root}>
+        <ViewNoTasks />
+      </div>
+    )
+  }
+
+  if (route === 'home') {
+    return (
+      <div className={classes.root}>
+        <ViewDailyTasks
+          tasks={categorizedTasks}
+          toggleCompleted={toggleCompleted}
+          onEditTask={onEditTask}
+          onDeleteTask={onDeleteTask}
+        />
+      </div>
+    )
+  }
+
+  if (route === 'task') {
+    return (
+      <div className={classes.root}>
+        <ViewTasks
+          activeTasks={activeTasks}
+          completedTasks={completedTasks}
+          toggleCompleted={toggleCompleted}
+          onEditTask={onEditTask}
+          onDeleteTask={onDeleteTask}
+        />
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        Invalid Route
+      </div>
+    )
+  }
 }
 
 export default Tasks

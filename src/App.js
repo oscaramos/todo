@@ -33,6 +33,8 @@ function App() {
     },
   ])
 
+  const [route, setRoute] = useState('task')
+
   const [openAddTask, setOpenAddTask] = useState(false)
   const [openEditTask, setOpenEditTask] = useState(false)
   const [editTaskIndex, setEditTaskIndex] = useState(0)
@@ -76,9 +78,11 @@ function App() {
         toggleCompleted={toggleCompleted}
         onEditTask={handleEditTask}
         onDeleteTask={handleDeleteTask}
+        route={route}
       />
       <Footer
         onOpenAddTaskDialog={() => setOpenAddTask(true)}
+        setRoute={setRoute}
       />
 
       <AddTaskDialog
