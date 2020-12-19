@@ -1,37 +1,40 @@
-import React, { useEffect } from "react";
-import { useState, createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { addDays, addHours, startOfToday } from "date-fns";
+import { useArray } from "react-recipes";
 import ls from "local-storage";
 
 const TasksContext = createContext(undefined);
 
+const initialArray = [
+  {
+    startTime: addDays(addHours(startOfToday(), 7), 0),
+    description: "Go jogging with Christin",
+    completed: false,
+  },
+  {
+    startTime: addDays(addHours(startOfToday(), 8), 0),
+    description: "Send project file",
+    completed: true,
+  },
+  {
+    startTime: addDays(addHours(startOfToday(), 7), 1),
+    description: "Go jogging with Christin",
+    completed: true,
+  },
+  {
+    startTime: addDays(addHours(startOfToday(), 8), 2),
+    description: "Send project file",
+    completed: false,
+  },
+];
+
 export function TasksProvider({ children }) {
-  const [tasks, setTasks] = useState([
-    {
-      startTime: addDays(addHours(startOfToday(), 7), 0),
-      description: "Go jogging with Christin",
-      completed: false,
-    },
-    {
-      startTime: addDays(addHours(startOfToday(), 8), 0),
-      description: "Send project file",
-      completed: true,
-    },
-    {
-      startTime: addDays(addHours(startOfToday(), 7), 1),
-      description: "Go jogging with Christin",
-      completed: true,
-    },
-    {
-      startTime: addDays(addHours(startOfToday(), 8), 2),
-      description: "Send project file",
-      completed: false,
-    },
-  ]);
+  const { add, removeIndex, value: tasks, setValue: setTasks } = useArray(
+    initialArray
+  );
 
   const addTask = (newTask) => {
-    const newTasks = [...tasks, newTask];
-    setTasks(newTasks);
+    add(newTask);
   };
 
   const editTask = (taskIndex, newTask) => {
@@ -41,9 +44,7 @@ export function TasksProvider({ children }) {
   };
 
   const deleteTask = (index) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
+    removeIndex(index);
   };
 
   const toggleCompleted = (index) => {
@@ -56,22 +57,23 @@ export function TasksProvider({ children }) {
     const lsTasks = ls.get("tasks");
 
     if (lsTasks) {
-      const obtainedTasks = lsTasks.map((task) => ({
-        ...task,
-        startTime: new Date(task.startTime),
-      }));
-
-      setTasks(obtainedTasks);
+      setTasks(
+        lsTasks.map((task) => ({
+          ...task,
+          startTime: new Date(task.startTime),
+        }))
+      );
     }
   }, []);
 
   useEffect(() => {
-    const lsTasks = tasks.map((task) => ({
-      ...task,
-      startTime: task.startTime.getTime(),
-    }));
-
-    ls.set("tasks", lsTasks);
+    ls.set(
+      "tasks",
+      tasks.map((task) => ({
+        ...task,
+        startTime: task.startTime.getTime(),
+      }))
+    );
   }, [tasks]);
 
   return (
