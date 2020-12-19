@@ -2,8 +2,10 @@ import React from 'react'
 import TaskView from './TaskView'
 import { useTasks } from '../hooks/useTasks'
 
-function EditTaskDialog({ open, onClose, task, taskIndex }) {
-  const [, { editTask }] = useTasks()
+function EditTaskDialog({ open, onClose, taskIndex }) {
+  const [tasks, { editTask }] = useTasks()
+
+  const task = tasks[taskIndex]
 
   const handleSubmit = (startTime, description) => {
     editTask(taskIndex, {

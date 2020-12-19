@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useLocation } from 'wouter'
 
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
@@ -15,9 +16,11 @@ import useTheme from '@material-ui/core/styles/useTheme'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { useAddTaskDialog } from '../hooks/useAddTaskDialog'
+
 
 const useStyles = makeStyles(theme => ({
-  mainContainer: {
+  container: {
     position: 'fixed',
     top: 'auto',
     bottom: 0,
@@ -30,8 +33,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function Footer({ onOpenAddTaskDialog, setRoute }) {
+function Footer() {
   const classes = useStyles()
+
+  const [, setLocation] = useLocation()
+
+  const openAddTaskDialog = useAddTaskDialog()
 
   const [value, setValue] = useState(0)
 
@@ -41,17 +48,17 @@ function Footer({ onOpenAddTaskDialog, setRoute }) {
 
   useEffect(() => {
     if (value === 0) {
-      setRoute('home')
+      setLocation('/')
     } else {
-      setRoute('task')
+      setLocation('/tasks')
     }
-  }, [value])
+  }, [value, setLocation])
 
   const theme = useTheme()
   const matchesXS = useMediaQuery(theme.breakpoints.down('xs'))
 
   return (
-    <div className={classes.mainContainer}>
+    <div className={classes.container}>
       <Container maxWidth='xs' style={{ position: 'relative', padding: matchesXS? 0: undefined }}>
         <Paper square style={{ position: 'relative', overflow: 'visible' }}>
           <Tabs
@@ -68,7 +75,7 @@ function Footer({ onOpenAddTaskDialog, setRoute }) {
 
           <Grid container style={{ position: 'absolute', top: -25 }} justify='center'>
             <Grid item>
-              <Fab color='primary' aria-label='add task' onClick={onOpenAddTaskDialog}>
+              <Fab color='primary' aria-label='add task' onClick={openAddTaskDialog}>
                 <AddIcon fontSize='large' />
               </Fab>
             </Grid>
