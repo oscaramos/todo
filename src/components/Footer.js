@@ -16,7 +16,7 @@ import useTheme from '@material-ui/core/styles/useTheme'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { useAddTaskDialog } from '../hooks/useAddTaskDialog'
+import { useAddTaskDialog } from '../hooks/dialogs/useAddTaskDialog'
 
 
 const useStyles = makeStyles(theme => ({

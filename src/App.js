@@ -5,15 +5,15 @@ import Container from '@material-ui/core/Container'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
-import DailyTasks from './components/DailyTasks'
+import Home from './pages/home/Home'
 
-import { AddTaskDialogProvider } from './hooks/useAddTaskDialog'
-import { EditTaskDialogProvider } from './hooks/useEditTaskDialog'
+import { AddTaskDialogProvider } from './hooks/dialogs/useAddTaskDialog'
+import { EditTaskDialogProvider } from './hooks/dialogs/useEditTaskDialog'
 
 function Body() {
   return (
     <Switch>
-      <Route path='/' component={ DailyTasks } />
+      <Route path='/' component={ Home } />
       <Route>
         Invalid Route
       </Route>

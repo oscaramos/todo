@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
@@ -13,7 +12,7 @@ import { Typography } from '@material-ui/core'
 import { DateTimePicker } from '@material-ui/pickers'
 import { makeStyles } from '@material-ui/core/styles'
 
-import addTaskBackgroundSvg from '../assets/curve.svg'
+import addTaskBackgroundSvg from '../../assets/curve.svg'
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -84,7 +83,7 @@ const Transition = React.forwardRef((props, ref) =>
   <Slide direction='up' ref={ref} {...props} />,
 )
 
-function TaskView({ onSubmit, onClose, open, title, buttonText, initialTask }) {
+function TaskDialog({ onSubmit, onClose, open, title, buttonText, initialTask }) {
   const classes = useStyles()
 
   const [startTime, setStartTime] = useState(new Date())
@@ -173,13 +172,4 @@ function TaskView({ onSubmit, onClose, open, title, buttonText, initialTask }) {
   )
 }
 
-TaskView.propTypes = {
-  buttonText: PropTypes.string.isRequired,
-  onClose: PropTypes.func,
-  onSubmit: PropTypes.func,
-  open: PropTypes.bool,
-  title: PropTypes.string.isRequired,
-  initialTask: PropTypes.object
-}
-
-export default TaskView
+export default TaskDialog

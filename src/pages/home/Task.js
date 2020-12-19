@@ -9,6 +9,8 @@ import { Typography } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import { makeStyles } from '@material-ui/core/styles'
+import { useTasks } from '../../hooks/useTasks'
+import { useEditTaskDialog } from '../../hooks/dialogs/useEditTaskDialog'
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -120,4 +122,19 @@ function Task({ task, toggleCompleted, onEdit, onDelete }) {
   )
 }
 
-export default Task
+function TaskContainer({ index }) {
+  const [ tasks, { toggleCompleted, deleteTask }] = useTasks()
+  const openEditTaskDialog = useEditTaskDialog()
+  const task = tasks[index]
+
+  return (
+    <Task
+      task={task}
+      toggleCompleted={() => toggleCompleted(index)}
+      onEdit={() => openEditTaskDialog(index)}
+      onDelete={() => deleteTask(index)}
+    />
+  )
+}
+
+export default TaskContainer
