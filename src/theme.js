@@ -29,6 +29,16 @@ const theme = createMuiTheme({
       fontFamily: '"Rubik", sans-serif',
       fontWeight: 500,
     },
+    h4: {
+      color: "#554E8F",
+      fontFamily: '"Rubik", sans-serif',
+      fontSize: 22,
+    },
+    subtitle1: {
+      color: "#82A0B7",
+      fontFamily: '"Rubik", sans-serif',
+      fontSize: 17,
+    },
     body1: {
       fontFamily: '"Rubik", sans-serif',
       fontWeight: 400,
