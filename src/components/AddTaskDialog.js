@@ -1,9 +1,12 @@
 import React from 'react'
 import TaskView from './TaskView'
+import { useTasks } from '../hooks/useTasks'
 
-function AddTaskDialog({ open, onSubmit, onClose }) {
+function AddTaskDialog({ open, onClose }) {
+  const [, { addTask }] = useTasks()
+
   const handleSubmit = (startTime, description) => {
-    onSubmit({
+    addTask({
       startTime,
       description,
       completed: false

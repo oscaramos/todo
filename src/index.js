@@ -10,13 +10,16 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import App from './App';
 import theme from './theme';
 import * as serviceWorker from './serviceWorker';
+import { TasksProvider } from './hooks/useTasks'
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <CssBaseline />
-      <App />
-    </MuiPickersUtilsProvider>
+    <TasksProvider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <CssBaseline />
+        <App />
+      </MuiPickersUtilsProvider>
+    </TasksProvider>
   </ThemeProvider>,
   document.querySelector('#root'),
 );

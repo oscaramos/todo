@@ -12,6 +12,7 @@ import { Typography } from '@material-ui/core'
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 
 import NoTasks from '../assets/NoTasks.png'
+import { useTasks } from '../hooks/useTasks'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -261,8 +262,10 @@ function ViewTasks({ activeTasks, completedTasks, toggleCompleted, onEditTask, o
   )
 }
 
-function Tasks({ tasks, toggleCompleted, onEditTask, onDeleteTask, route }) {
+function Tasks({ route }) {
   const classes = useStyles()
+
+  const [tasks, { deleteTask, toggleCompleted, onEditTask }] = useTasks()
 
   const getDay = (startTime) => {
     const diff = differenceInDays(startTime, startOfDay(new Date()))
@@ -313,7 +316,7 @@ function Tasks({ tasks, toggleCompleted, onEditTask, onDeleteTask, route }) {
           tasks={categorizedTasks}
           toggleCompleted={toggleCompleted}
           onEditTask={onEditTask}
-          onDeleteTask={onDeleteTask}
+          onDeleteTask={deleteTask}
         />
       </div>
     )
@@ -327,7 +330,7 @@ function Tasks({ tasks, toggleCompleted, onEditTask, onDeleteTask, route }) {
           completedTasks={completedTasks}
           toggleCompleted={toggleCompleted}
           onEditTask={onEditTask}
-          onDeleteTask={onDeleteTask}
+          onDeleteTask={deleteTask}
         />
       </div>
     )
