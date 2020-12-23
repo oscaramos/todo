@@ -7,7 +7,7 @@ function Home() {
 
   const tasksByDay = groupTasksByDay(tasks);
 
-  return <GroupedTasks tasks={tasksByDay} />;
+  return <GroupedTasks tasks={tasksByDay} allowReset />;
 }
 
 export default Home;

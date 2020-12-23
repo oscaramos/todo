@@ -3,7 +3,7 @@ import { Typography, Grid } from "@material-ui/core";
 import NoTasksImage from "../../assets/NoTasks.png";
 import { useTasks } from "../../hooks/useTasks";
 
-function NoTasks() {
+function NoTasks({ allowReset }) {
   const [, { resetTasks }] = useTasks();
 
   return (
@@ -28,15 +28,17 @@ function NoTasks() {
           <Grid item>
             <Typography variant="subtitle1">You have no tasks to do</Typography>
           </Grid>
-          <Grid item>
-            <Typography
-              variant="subtitle1"
-              style={{ cursor: "pointer", color: "#1976D2" }}
-              onClick={resetTasks}
-            >
-              Reset initial tasks
-            </Typography>
-          </Grid>
+          {allowReset && (
+            <Grid item>
+              <Typography
+                variant="subtitle1"
+                style={{ cursor: "pointer", color: "#1976D2" }}
+                onClick={resetTasks}
+              >
+                Reset initial tasks
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>

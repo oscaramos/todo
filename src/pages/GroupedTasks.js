@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function GroupedTasks({ tasks }) {
+function GroupedTasks({ tasks, allowReset = false }) {
   const classes = useStyles();
 
   if (Object.keys(tasks).length === 0) {
-    return <NoTasks />;
+    return <NoTasks allowReset={allowReset} />;
   }
 
   return (
