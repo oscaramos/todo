@@ -57,6 +57,10 @@ export function TasksProvider({ children }) {
     setTasks(newTasks);
   };
 
+  const resetTasks = () => {
+    setTasks(initialArray);
+  };
+
   useEffect(() => {
     const lsTasks = ls.get("tasks");
 
@@ -82,7 +86,10 @@ export function TasksProvider({ children }) {
 
   return (
     <TasksContext.Provider
-      value={[tasks, { addTask, editTask, deleteTask, toggleCompleted }]}
+      value={[
+        tasks,
+        { addTask, editTask, deleteTask, toggleCompleted, resetTasks },
+      ]}
     >
       {children}
     </TasksContext.Provider>
