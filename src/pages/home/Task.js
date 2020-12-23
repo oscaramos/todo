@@ -153,17 +153,16 @@ function Task({ task, toggleCompleted, onEdit, onDelete }) {
   );
 }
 
-function TaskContainer({ index }) {
-  const [tasks, { toggleCompleted, deleteTask }] = useTasks();
+function TaskContainer({ task }) {
+  const [, { toggleCompleted, deleteTask }] = useTasks();
   const openEditTaskDialog = useEditTaskDialog();
-  const task = tasks[index];
 
   return (
     <Task
       task={task}
-      toggleCompleted={() => toggleCompleted(index)}
-      onEdit={() => openEditTaskDialog(index)}
-      onDelete={() => deleteTask(index)}
+      toggleCompleted={() => toggleCompleted(task.index)}
+      onEdit={() => openEditTaskDialog(task.index)}
+      onDelete={() => deleteTask(task.index)}
     />
   );
 }
