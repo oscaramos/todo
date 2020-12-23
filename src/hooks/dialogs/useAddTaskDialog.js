@@ -1,15 +1,14 @@
 import React from "react";
 import { useState, createContext, useContext } from "react";
 import { useTasks } from "../useTasks";
-import TaskDialog from "./TaskDialog";
+import TaskDialog from "./TaskDialog/TaskDialog";
 
-function AddTaskDialog({ open, onClose }) {
+function AddTaskDialog({ onClose }) {
   const [, { addTask }] = useTasks();
 
-  const handleSubmit = (startTime, description) => {
+  const handleSubmit = (data) => {
     addTask({
-      startTime,
-      description,
+      ...data,
       completed: false,
     });
     onClose();
@@ -18,10 +17,10 @@ function AddTaskDialog({ open, onClose }) {
   return (
     <TaskDialog
       onClose={onClose}
-      open={open}
       onSubmit={handleSubmit}
       title="Add new task"
       buttonText="Add Task"
+      open
     />
   );
 }
@@ -39,7 +38,7 @@ export function AddTaskDialogProvider({ children }) {
     <AddTaskDialogContext.Provider value={openDialog}>
       {children}
 
-      <AddTaskDialog open={open} onClose={() => setOpen(false)} />
+      {open && <AddTaskDialog onClose={() => setOpen(false)} />}
     </AddTaskDialogContext.Provider>
   );
 }

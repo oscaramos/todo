@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -12,7 +12,10 @@ import { Typography } from "@material-ui/core";
 import { DateTimePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 
-import addTaskBackgroundSvg from "../../assets/curve.svg";
+import addTaskBackgroundSvg from "../../../assets/curve.svg";
+
+import { Tag, Tags } from "./Tags";
+import { tags } from "../../../constants/tags";
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -85,36 +88,36 @@ const Transition = React.forwardRef((props, ref) => (
   <Slide direction="up" ref={ref} {...props} />
 ));
 
-function TaskDialog({
-  onSubmit,
-  onClose,
-  open,
-  title,
-  buttonText,
-  initialTask,
-}) {
+function TaskDialog({ onSubmit, onClose, title, buttonText, initialTask }) {
   const classes = useStyles();
 
-  const [startTime, setStartTime] = useState(new Date());
-  const [description, setDescription] = useState("");
+  const [startTime, setStartTime] = useState(
+    initialTask?.startTime ?? new Date()
+  );
+  const [description, setDescription] = useState(
+    initialTask?.description ?? ""
+  );
+  const [tagId, setTagId] = useState(initialTask?.tagId ?? 0);
+
+  const [exiting, setExiting] = useState(false);
 
   const handleSubmit = () => {
-    onSubmit(startTime, description);
+    onSubmit({ startTime, description, tagId });
   };
 
-  useEffect(() => {
-    if (initialTask) {
-      setStartTime(initialTask.startTime);
-      setDescription(initialTask.description);
-    }
-  }, [initialTask]);
+  const handleClose = () => {
+    setExiting(true);
+    setTimeout(() => {
+      onClose();
+    }, 500); // transition's time
+  };
 
   return (
     <Dialog
-      onClose={onClose}
+      onClose={handleClose}
       aria-labelledby="task-dialog"
       TransitionComponent={Transition}
-      open={open}
+      open={!exiting}
     >
       <div className={classes.mainContainer}>
         <Container maxWidth="xs" style={{ position: "relative" }}>
@@ -123,7 +126,7 @@ function TaskDialog({
               <IconButton
                 disableRipple
                 className={classes.iconCloseButton}
-                onClick={onClose}
+                onClick={handleClose}
               >
                 <CancelIcon className={classes.iconClose} />
               </IconButton>
@@ -143,13 +146,23 @@ function TaskDialog({
                   <Grid item>
                     <TextField
                       variant="standard"
-                      label="description"
+                      label="Description"
                       aria-label="description"
                       fullWidth
                       multiline
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     />
+                  </Grid>
+
+                  <Grid item>
+                    <Tags value={tagId} onChange={(newTag) => setTagId(newTag)}>
+                      {tags.map((tag) => (
+                        <Tag color={tag.color} key={tag.id}>
+                          {tag.name}
+                        </Tag>
+                      ))}
+                    </Tags>
                   </Grid>
 
                   <Grid

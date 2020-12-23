@@ -1,17 +1,16 @@
 import React from "react";
 import { useState, createContext, useContext } from "react";
 import { useTasks } from "../useTasks";
-import TaskDialog from "./TaskDialog";
+import TaskDialog from "./TaskDialog/TaskDialog";
 
-function EditTaskDialog({ open, onClose, taskIndex }) {
+function EditTaskDialog({ onClose, taskIndex }) {
   const [tasks, { editTask }] = useTasks();
 
   const task = tasks[taskIndex];
 
-  const handleSubmit = (startTime, description) => {
+  const handleSubmit = (data) => {
     editTask(taskIndex, {
-      startTime,
-      description,
+      ...data,
       completed: false,
     });
     onClose();
@@ -20,7 +19,6 @@ function EditTaskDialog({ open, onClose, taskIndex }) {
   return (
     <TaskDialog
       onClose={onClose}
-      open={open}
       onSubmit={handleSubmit}
       title="Edit task"
       buttonText="Edit task"
@@ -44,11 +42,9 @@ export function EditTaskDialogProvider({ children }) {
     <EditTaskDialogContext.Provider value={openDialog}>
       {children}
 
-      <EditTaskDialog
-        open={open}
-        taskIndex={index}
-        onClose={() => setOpen(false)}
-      />
+      {open && (
+        <EditTaskDialog taskIndex={index} onClose={() => setOpen(false)} />
+      )}
     </EditTaskDialogContext.Provider>
   );
 }
