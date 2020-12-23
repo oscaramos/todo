@@ -10,21 +10,25 @@ const initialArray = [
     startTime: addDays(addHours(startOfToday(), 7), 0),
     description: "Go jogging with Christin",
     completed: false,
+    tagId: 0,
   },
   {
     startTime: addDays(addHours(startOfToday(), 8), 0),
     description: "Send project file",
     completed: true,
+    tagId: 1,
   },
   {
     startTime: addDays(addHours(startOfToday(), 7), 1),
-    description: "Go jogging with Christin",
+    description: "Meeting with client",
     completed: true,
+    tagId: 2,
   },
   {
     startTime: addDays(addHours(startOfToday(), 8), 2),
-    description: "Send project file",
+    description: "Email client",
     completed: false,
+    tagId: 1,
   },
 ];
 
