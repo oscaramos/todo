@@ -10,7 +10,7 @@ import CategoryLink from "./CategoryLink";
 
 function Categories() {
   return (
-    <Grid container direction="column" spacing={2}>
+    <Grid container direction="column" spacing={2} style={{ marginBottom: 75 }}>
       <Grid item container direction="row" spacing={2}>
         <Grid item xs={6}>
           <CategoryLink
