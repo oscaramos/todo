@@ -20,7 +20,7 @@ import { tags } from "../../../constants/tags";
 import { Tag, Tags } from "./Tags";
 
 const useStyles = makeStyles((theme) => ({
-  mainContainer: {
+  container: {
     position: "fixed",
     top: "auto",
     bottom: 0,
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     bottom: 0,
     left: 0,
-    padding: "inherit",
+    padding: 0,
     zIndex: 1,
   },
   title: {
@@ -121,7 +121,7 @@ function TaskDialog({ onSubmit, onClose, title, buttonText, initialTask }) {
       TransitionComponent={Transition}
       open={!exiting}
     >
-      <div className={classes.mainContainer}>
+      <div className={classes.container}>
         <Container maxWidth="xs" style={{ position: "relative" }}>
           <div className={classes.dialogContainer}>
             <div className={classes.iconCloseContainer}>
