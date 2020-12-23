@@ -33,26 +33,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const tabLocations = [["/"], ["/categories", "/category"]];
+
 function Footer() {
   const classes = useStyles();
 
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   const openAddTaskDialog = useAddTaskDialog();
 
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    const newLocation = tabLocations[newValue === 0 ? 0 : 1][0];
+    setLocation(newLocation);
   };
 
   useEffect(() => {
-    if (value === 0) {
-      setLocation("/");
-    } else {
-      setLocation("/tasks");
-    }
-  }, [value, setLocation]);
+    const newValue = tabLocations[1].find((loc) => location.startsWith(loc))
+      ? 1
+      : 0;
+    setValue(newValue);
+  }, [location]);
 
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -79,15 +81,18 @@ function Footer() {
             />
             <Tab
               icon={<AssignmentOutlinedIcon />}
-              label="Task"
+              label="Categories"
               className={classes.tab}
             />
           </Tabs>
 
           <Grid
-            container
-            style={{ position: "absolute", top: -25 }}
-            justify="center"
+            style={{
+              position: "absolute",
+              top: -25,
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
           >
             <Grid item>
               <Fab
