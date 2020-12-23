@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import CancelIcon from "@material-ui/icons/Cancel";
-import Dialog from "@material-ui/core/Dialog";
-import TextField from "@material-ui/core/TextField";
-import Slide from "@material-ui/core/Slide";
-import { Typography } from "@material-ui/core";
-import { DateTimePicker } from "@material-ui/pickers";
+
+import {
+  Typography,
+  Button,
+  Container,
+  Dialog,
+  Grid,
+  IconButton,
+  Slide,
+  TextField,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { DateTimePicker } from "@material-ui/pickers";
 
 import addTaskBackgroundSvg from "../../../assets/curve.svg";
-
-import { Tag, Tags } from "./Tags";
 import { tags } from "../../../constants/tags";
+import { Tag, Tags } from "./Tags";
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {

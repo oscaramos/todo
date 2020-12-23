@@ -1,7 +1,6 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
+import { Typography, Grid } from "@material-ui/core";
+
 import NoTasksImage from "../../assets/NoTasks.png";
-import { Typography } from "@material-ui/core";
 import { useTasks } from "../../hooks/useTasks";
 
 function NoTasks() {

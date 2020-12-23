@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Fab from "@material-ui/core/Fab";
-import Grid from "@material-ui/core/Grid";
-
 import AddIcon from "@material-ui/icons/Add";
-import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
-import Container from "@material-ui/core/Container";
-import useTheme from "@material-ui/core/styles/useTheme";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+
+import {
+  Container,
+  Fab,
+  Grid,
+  Paper,
+  Tab,
+  Tabs,
+  useMediaQuery,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import useTheme from "@material-ui/core/styles/useTheme";
 
 import { useAddTaskDialog } from "../hooks/dialogs/useAddTaskDialog";
 

@@ -1,17 +1,15 @@
 import React from "react";
-import { Route, Switch } from "wouter";
 import { useLocalStorage } from "react-recipes";
+import { Route, Switch } from "wouter";
 
 import Container from "@material-ui/core/Container";
 
-import Header from "./components/Header";
 import Footer from "./components/Footer";
-
-import Home from "./pages/home/Home";
-import Onboarding from "./pages/onboarding/Onboarding";
-
+import Header from "./components/Header";
 import { AddTaskDialogProvider } from "./hooks/dialogs/useAddTaskDialog";
 import { EditTaskDialogProvider } from "./hooks/dialogs/useEditTaskDialog";
+import Home from "./pages/home/Home";
+import Onboarding from "./pages/onboarding/Onboarding";
 
 function Body() {
   return (

@@ -1,0 +1,4 @@
+{
+  "importOrder": ["^@material-ui/icons/(.*)$", "^@material-ui/(.*)$", "^[./]"],
+  "importOrderSeparation": true
+}

@@ -1,18 +1,14 @@
-import React from "react";
 import clsx from "clsx";
 import { format } from "date-fns";
 
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Radio from "@material-ui/core/Radio";
-import { Typography } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
 import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
+
+import { Typography, Grid, IconButton, Paper, Radio } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useTasks } from "../../hooks/useTasks";
-import { useEditTaskDialog } from "../../hooks/dialogs/useEditTaskDialog";
 
 import { tags } from "../../constants/tags";
+import { useEditTaskDialog } from "../../hooks/dialogs/useEditTaskDialog";
+import { useTasks } from "../../hooks/useTasks";
 
 const useStyles = makeStyles(() => ({
   paper: {

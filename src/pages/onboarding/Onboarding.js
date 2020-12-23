@@ -1,9 +1,7 @@
-import React from "react";
-import Container from "@material-ui/core/Container";
-import { Typography } from "@material-ui/core";
+import { Typography, Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
 import { ReactComponent as OnboardingBook } from "../../assets/Onboarding.svg";
-import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(() => ({
   button: {

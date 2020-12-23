@@ -1,14 +1,11 @@
-import React from "react";
 import { differenceInDays, startOfDay } from "date-fns";
 
-import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useTasks } from "../../hooks/useTasks";
-
-import Task from "./Task";
 import NoTasks from "./NoTasks";
+import Task from "./Task";
 
 const getDay = (startTime) => {
   const diff = differenceInDays(startTime, startOfDay(new Date()));
