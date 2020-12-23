@@ -12,11 +12,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useTasks } from "../../hooks/useTasks";
 import { useEditTaskDialog } from "../../hooks/dialogs/useEditTaskDialog";
 
+import { tags } from "../../constants/tags";
+
 const useStyles = makeStyles(() => ({
   paper: {
     height: "4em",
     boxShadow: "0px 0px 5px 0px rgba(239,222,234,1)",
     color: "white",
+
+    display: "flex",
+    flexDirection: "row",
   },
   icon: {
     borderRadius: "50%",
@@ -74,13 +79,28 @@ const useStyles = makeStyles(() => ({
       color: "red",
     },
   },
+
+  tagColor: {
+    width: 6,
+    height: "100%",
+    overflow: "hidden",
+    borderRadius: "4px 0px 0px 4px",
+  },
 }));
 
 function Task({ task, toggleCompleted, onEdit, onDelete }) {
   const classes = useStyles();
 
+  const tagColor = tags.find((tag) => tag.id === task.tagId).color;
+
   return (
     <Paper className={classes.paper}>
+      <div
+        className={classes.tagColor}
+        style={{
+          backgroundColor: tagColor,
+        }}
+      />
       <Grid
         container
         direction="row"
