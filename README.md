@@ -8,8 +8,8 @@ This idea came out from [App Ideas Collection](https://github.com/florinpop17/ap
 See the project description [here](./PROJECT_IDEA.md)
 
 # Demos
-<img src='./docs/Adding_Editing.gif' alt='Adding and editing tasks' width='1000' />
-<img src='./docs/Categories.gif' alt='Managing through categories' width='1000' />
+<img src='./docs/Adding_Editing.gif' alt='Adding and editing tasks' width='350' />
+<img src='./docs/Categories.gif' alt='Managing through categories' width='350' />
 
 # Tools
 * [React](https://es.reactjs.org/) - Framework
