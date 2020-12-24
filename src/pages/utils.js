@@ -13,14 +13,12 @@ const getDay = (startTime) => {
 };
 
 export const groupTasksByDay = (tasks) => {
-  return tasks.reduce(
-    (acum, task, index) => ({
+  return tasks.reduce((acum, task) => {
+    const groupName = getDay(task.startTime);
+    const groupContent = acum[groupName] || [];
+    return {
       ...acum,
-      [getDay(task.startTime)]: [
-        ...(acum[getDay(task.startTime)] || []),
-        { ...task, index },
-      ],
-    }),
-    {}
-  );
+      [groupName]: [...groupContent, task],
+    };
+  }, {});
 };

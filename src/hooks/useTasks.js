@@ -84,10 +84,12 @@ export function TasksProvider({ children }) {
     );
   }, [tasks]);
 
+  const tasksWithIndex = tasks.map((task, index) => ({ ...task, index }));
+
   return (
     <TasksContext.Provider
       value={[
-        tasks,
+        tasksWithIndex,
         { addTask, editTask, deleteTask, toggleCompleted, resetTasks },
       ]}
     >
